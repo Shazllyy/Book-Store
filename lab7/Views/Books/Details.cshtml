@@ -1,0 +1,96 @@
+﻿@model lab7.Models.Book
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<table class="table table-light" >
+    <tr>
+        <td>
+           <h1>@Model.Title</h1>
+        </td>
+    </tr>
+    <tr></tr>
+    <tr>
+        <th>
+            by:</th>@foreach (var item in Model.Authors)
+        {
+
+                <td>@item.Author.Name</td>   
+               
+            
+        }
+        
+        </tr>
+        <tr></tr>
+    <tr><th>Published on</th><td> @Model.Publish_on</td></tr>
+    <tr>
+        <th>
+            Categories:
+        </th>@foreach (var item in Model.Tags)
+        {
+            <td>
+                @item.Name
+            </td>
+            
+            
+        }
+        
+    
+    </tr>
+    <tr>
+        <th>Reviews</th>@{
+            float Stars = 0;
+            float reviewsCount = Model.Reviews.Count;
+        }
+        @foreach (var item in Model.Reviews)
+        {
+            Stars += item.Stars;
+
+        }
+        @{
+            float averageStars = Stars / reviewsCount;
+        }
+        
+        
+        <td>
+            @averageStars <span style="font-size:150%;color:goldenrod;">&starf;</span>
+     
+            by @reviewsCount persons
+        </td>
+    </tr>
+    <tr>
+        <th>Price</th>
+        <td>
+            @Model.Offer.NewPrice
+            <span class="text-danger text-decoration-line-through">@Html.DisplayFor(model => model.Price)</span><span class="text-danger">@Model.Offer.OfferTxt</span><span class="text-danger">
+                @{
+                    int x = 0;
+                }  you have save a @{
+                    x = Model.Price - Model.Offer.NewPrice;
+                }@x $
+            </span>
+        </td>
+    </tr>
+
+    </table>
+
+       
+
+        
+      
+       
+        
+        
+
+        
+
+        
+    
+
+
+
+    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+
